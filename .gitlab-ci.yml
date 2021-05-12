@@ -15,14 +15,14 @@ stages:
   - push
   - manifest
 
-test:
-  stage: test
-  tags:
-    - docker
-  variables:
-    DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}
-    DOCKER_IMAGE_TAG: ${CI_COMMIT_SHA}
-  script:
-    - docker run ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}-amd64
-  except:
-    - tags
+# test:
+#   stage: test
+#   tags:
+#     - docker
+#   variables:
+#     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}
+#     DOCKER_IMAGE_TAG: ${CI_COMMIT_SHA}
+#   script:
+#     - docker run ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}-amd64
+#   except:
+#     - tags
