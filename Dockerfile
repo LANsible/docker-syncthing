@@ -9,7 +9,8 @@ RUN echo "syncthing:x:1000:1000:syncthing:/:" > /etc_passwd
 # Install build needs
 RUN apk add --no-cache \
   git \
-  go
+  go \
+  ca-certificates
 
 # Get syncthing from Github
 RUN git clone --depth 1 --branch "${VERSION}" https://github.com/syncthing/syncthing.git /syncthing
@@ -33,15 +34,19 @@ RUN upx --brute syncthing && \
 
 FROM scratch
 
+# Force GUI on 0.0.0.0
+ENV STGUIADDRESS=0.0.0.0:8384
+
 # Copy the unprivileged user
 COPY --from=builder /etc_passwd /etc/passwd
 
-# COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+# ca-certificates are required to resolve https// syncthing domains:
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 # Add static syncthing binary
 COPY --from=builder /syncthing/syncthing /usr/bin/syncthing
 
 USER syncthing
-ENTRYPOINT ["/usr/bin/syncthing"]
+ENTRYPOINT ["/usr/bin/syncthing", "-home", "/config"]
 # Expose the webinterface and the protocol ports
 EXPOSE 8384 22000
