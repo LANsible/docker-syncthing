@@ -1,6 +1,6 @@
-ARG ARCHITECTURE
-FROM multiarch/alpine:${ARCHITECTURE}-v3.13 as builder
+FROM golang:1.16.5-alpine3.13 as builder
 
+# https://github.com/syncthing/syncthing/releases
 ENV VERSION=v1.16.1
 
 # Add unprivileged user
@@ -8,9 +8,7 @@ RUN echo "syncthing:x:1000:1000:syncthing:/:" > /etc_passwd
 
 # Install build needs
 RUN apk add --no-cache \
-  git \
-  go \
-  ca-certificates
+  git
 
 # Get syncthing from Github
 RUN git clone --depth 1 --branch "${VERSION}" https://github.com/syncthing/syncthing.git /syncthing
