@@ -21,13 +21,14 @@ RUN CGO_ENABLED=0 go run build.go -no-upgrade build syncthing
 
 # 'Install' upx from image since upx isn't available for aarch64 from Alpine
 COPY --from=lansible/upx /usr/bin/upx /usr/bin/upx
-# Minify binaries
+# Minify binaries and create config folder
 # no upx: 23.6M
 # upx: 9.4M
 # --best: 9.1M
 # --brute: 7.1M
 RUN upx --brute syncthing && \
-    upx -t syncthing
+    upx -t syncthing && \
+    mkdir /config
 
 
 FROM scratch
@@ -43,6 +44,9 @@ COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 # Add static syncthing binary
 COPY --from=builder /syncthing/syncthing /usr/bin/syncthing
+
+# Add /config placeholder (empty dir)
+COPY --from=builder --chown=syncthing /config /config
 
 USER syncthing
 ENTRYPOINT ["/usr/bin/syncthing", "-home", "/config"]
