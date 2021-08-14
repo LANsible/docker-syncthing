@@ -25,8 +25,8 @@ COPY --from=lansible/upx /usr/bin/upx /usr/bin/upx
 # no upx: 23.6M
 # upx: 9.4M
 # --best: 9.1M
-# --brute: 7.1M
-RUN upx --brute syncthing && \
+# --brute: breaks the binary
+RUN upx --best syncthing && \
     upx -t syncthing && \
     mkdir /config
 
