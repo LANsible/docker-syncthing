@@ -1,10 +1,11 @@
-FROM golang:1.17.1-alpine3.14 as builder
+FROM golang:1.17.3-alpine3.15 as builder
 
 # https://github.com/syncthing/syncthing/releases
-ENV VERSION=v1.18.2
+ENV VERSION=v1.18.4
 
 # Add unprivileged user
 RUN echo "syncthing:x:1000:1000:syncthing:/:" > /etc_passwd
+RUN echo "syncthing:x:1000:syncthing" > /etc_group
 
 # Install build needs
 RUN apk add --no-cache \
@@ -38,6 +39,7 @@ ENV STGUIADDRESS=0.0.0.0:8384
 
 # Copy the unprivileged user
 COPY --from=builder /etc_passwd /etc/passwd
+COPY --from=builder /etc_group /etc/group
 
 # ca-certificates are required to resolve https// syncthing domains:
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
