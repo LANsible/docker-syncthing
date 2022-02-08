@@ -1,7 +1,7 @@
-FROM golang:1.17.3-alpine3.15 as builder
+FROM golang:1.17.6-alpine3.15 as builder
 
 # https://github.com/syncthing/syncthing/releases
-ENV VERSION=v1.18.6
+ENV VERSION=v1.19.0
 
 # Add unprivileged user
 RUN echo "syncthing:x:1000:1000:syncthing:/:" > /etc_passwd
