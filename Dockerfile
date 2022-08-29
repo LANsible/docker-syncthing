@@ -1,4 +1,4 @@
-FROM golang:1-alpine3.16 as builder
+FROM golang:1.18-alpine3.16 as builder
 
 # https://github.com/syncthing/syncthing/releases
 ENV VERSION=v1.20.3
