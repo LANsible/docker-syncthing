@@ -1,8 +1,8 @@
 # docker-syncthing
-[![pipeline status](https://gitlab.com/lansible1/docker-syncthing/badges/master/pipeline.svg)](https://gitlab.com/lansible1/docker-syncthing/-/commits/master)
+[![Build Status](https://github.com/LANsible/docker-syncthing/actions/workflows/docker.yml/badge.svg)](https://github.com/LANsible/docker-syncthing/actions/workflows/docker.yml)
 [![Docker Pulls](https://img.shields.io/docker/pulls/lansible/syncthing.svg)](https://hub.docker.com/r/lansible/syncthing)
-[![Docker Version](https://images.microbadger.com/badges/version/lansible/syncthing:latest.svg)](https://microbadger.com/images/lansible/syncthing:latest)
-[![Docker Size/Layers](https://images.microbadger.com/badges/image/lansible/syncthing:latest.svg)](https://microbadger.com/images/lansible/syncthing:latest)
+[![Docker Version](https://img.shields.io/docker/v/lansible/syncthing.svg?sort=semver)](https://hub.docker.com/r/lansible/syncthing)
+[![Docker Size/Layers](https://img.shields.io/docker/image-size/lansible/syncthing.svg?sort=semver)](https://hub.docker.com/r/lansible/syncthing)
 
 Dockerized static syncthing
 
