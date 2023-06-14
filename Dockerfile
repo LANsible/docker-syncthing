@@ -1,9 +1,9 @@
 FROM lansible/upx:latest as upx
 
-FROM golang:1.19-alpine3.16 as builder
+FROM golang:1.20-alpine as builder
 
 # https://github.com/syncthing/syncthing/releases
-ENV VERSION=v1.22.1
+ENV VERSION=v1.23.5
 
 # Add unprivileged user
 RUN echo "syncthing:x:1000:1000:syncthing:/:" > /etc_passwd
