@@ -20,7 +20,8 @@ WORKDIR /syncthing
 
 # Compile static syncthing
 # https://github.com/syncthing/syncthing/blob/main/Dockerfile#L10
-RUN CGO_ENABLED=0 go run build.go -no-upgrade build syncthing
+RUN --mount=type=cache,target=/root/.cache \
+  CGO_ENABLED=0 go run build.go -no-upgrade build syncthing
 
 # 'Install' upx from image since upx isn't available for aarch64 from Alpine
 COPY --from=upx /usr/bin/upx /usr/bin/upx
