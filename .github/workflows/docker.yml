@@ -5,7 +5,7 @@ on:
 
 jobs:
   docker:
-    uses: LANsible/github-workflows/.github/workflows/docker-build.yml@develop
+    uses: LANsible/github-workflows/.github/workflows/docker-build.yml@main
     with:
       image_name: lansible/syncthing
     secrets: inherit
