@@ -1,9 +1,7 @@
-FROM lansible/upx:latest as upx
-
 FROM golang:1.20-alpine as builder
 
 # https://github.com/syncthing/syncthing/releases
-ENV VERSION=v1.23.5
+ENV VERSION=v1.23.6
 
 # Add unprivileged user
 RUN echo "syncthing:x:1000:1000:syncthing:/:" > /etc_passwd
@@ -11,7 +9,8 @@ RUN echo "syncthing:x:1000:syncthing" > /etc_group
 
 # Install build needs
 RUN apk add --no-cache \
-  git
+  git \
+  upx
 
 # Get syncthing from Github
 RUN git clone --depth 1 --branch "${VERSION}" https://github.com/syncthing/syncthing.git /syncthing
@@ -23,8 +22,6 @@ WORKDIR /syncthing
 RUN --mount=type=cache,target=/root/.cache \
   CGO_ENABLED=0 go run build.go -no-upgrade build syncthing
 
-# 'Install' upx from image since upx isn't available for aarch64 from Alpine
-COPY --from=upx /usr/bin/upx /usr/bin/upx
 # Minify binaries and create config folder
 # no upx: 23.6M
 # upx: 9.4M
