@@ -1,7 +1,7 @@
-FROM golang:1.24-alpine as builder
+FROM golang:1.24-alpine AS builder
 
 # https://github.com/syncthing/syncthing/releases
-ENV VERSION=v2.0.0-rc.22
+ENV VERSION=v2.0.0-rc.23
 
 # Add unprivileged user
 RUN echo "syncthing:x:1000:1000:syncthing:/:" > /etc_passwd
@@ -31,26 +31,25 @@ RUN upx --best syncthing && \
     upx -t syncthing && \
     mkdir /config
 
-
 FROM scratch
 
-# Force GUI on 0.0.0.0
-ENV STGUIADDRESS=0.0.0.0:8384
+ENV STGUIADDRESS=0.0.0.0:8384 \
+    STHOMEDIR=/config
 
 # Copy the unprivileged user
-COPY --from=builder /etc_passwd /etc/passwd
-COPY --from=builder /etc_group /etc/group
+COPY --link --from=builder /etc_passwd /etc/passwd
+COPY --link --from=builder /etc_group /etc/group
 
 # ca-certificates are required to resolve https// syncthing domains:
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --link --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 # Add static syncthing binary
-COPY --from=builder /syncthing/syncthing /usr/bin/syncthing
+COPY --link --from=builder /syncthing/syncthing /usr/bin/syncthing
 
 # Add /config placeholder (empty dir)
-COPY --from=builder --chown=syncthing /config /config
+COPY --link --from=builder --chown=syncthing /config /config
 
 USER syncthing
-ENTRYPOINT ["/usr/bin/syncthing", "-home", "/config"]
+ENTRYPOINT ["/usr/bin/syncthing"]
 # Expose the webinterface and the protocol ports
 EXPOSE 8384 22000

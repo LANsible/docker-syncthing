@@ -12,3 +12,6 @@ Dockerized static syncthing
 ```
 docker run -it -p 8384:8384 -p 22000:22000/tcp -p 22000:22000/udp -v "$PWD/config:/config" lansible/syncthing:master
 ```
+
+Also setup some in the config to make it LAN only:
+[docs](https://docs.sync/gthing.net/users/tuning.html#tuning-for-lan-only)
